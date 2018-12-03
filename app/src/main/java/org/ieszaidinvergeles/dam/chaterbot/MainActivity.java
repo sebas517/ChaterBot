@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                 final String text = getString(R.string.you) + " " + etTexto.getText().toString().trim();
                 btSend.setEnabled(false);
                 tvTexto.append(text + "\n");
-                System.out.println("holaaaaa" + textos.get(0));
                 new conversacionBot().execute();
             }
         }
@@ -150,6 +149,8 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
                 String trad = text;
                 String link = "&text=";
+                HashMap<String, String> nuevo = new HashMap<>();
+                nuevo.put("/usuario/" , text);
                 try {
                     URL url = new URL("https://www.bing.com/ttranslate?&category=&IG=51C950C044BE4176885CCAFA7B90FD83&IID=translator.5034.22");
                     URLConnection conexion = url.openConnection();
@@ -254,6 +255,8 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
             super.onPostExecute(o);
             etTexto.requestFocus();
             tvTexto.append(traducir(response, "en", "es") + "\n");
+            HashMap<String, String> bot = new HashMap<>();
+            bot.put("/bot/", traducir(response, "en", "es"));
             sayResponse(response);
             svScroll.fullScroll(View.FOCUS_DOWN);
             btSend.setEnabled(true);
